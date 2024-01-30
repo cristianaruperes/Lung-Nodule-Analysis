@@ -23,18 +23,6 @@ os.environ['KMP_DUPLICATE_LIB_OK'] = 'True'
 # y_val = np.load('data/split/femh/data474/original/val_data/y_val.npy')
 
 # FEMH raw
-<<<<<<< Updated upstream
-image_path_train_femh = "data/split/femh/data474/image-format/train_data/images/"
-mask_path_train_femh = "data/split/femh/data474/image-format/train_data/masks/"
-image_path_val_femh = "data/split/femh/data474/image-format/val_data/images/"
-mask_path_val_femh = "data/split/femh/data474/image-format/val_data/masks/"
-
-# LUNA16 raw
-image_path_train_luna = "data/split/luna16/data934/image-format/train_data/images/"
-mask_path_train_luna = "data/split/luna16/data934/image-format/train_data/masks/"
-image_path_val_luna = "data/split/luna16/data934/image-format/val_data/images/"
-mask_path_val_luna = "data/split/luna16/data934/image-format/val_data/masks/"
-=======
 # image_path_train_femh = "../data-thesis/split/femh/data474/image-format/train_data/images/"
 # mask_path_train_femh = "../data-thesis/split/femh/data474/image-format/train_data/masks/"
 # image_path_val_femh = "../data-thesis/split/femh/data474/image-format/val_data/images/"
@@ -45,74 +33,47 @@ image_path_train_luna = "../data-thesis/split/luna16/data934/image-format/train_
 mask_path_train_luna = "../data-thesis/split/luna16/data934/image-format/train_data/masks/"
 image_path_val_luna = "../data-thesis/split/luna16/data934/image-format/val_data/images/"
 mask_path_val_luna = "../data-thesis/split/luna16/data934/image-format/val_data/masks/"
->>>>>>> Stashed changes
 
 # convert image to numpy array
 images_set_train_luna, masks_set_train_luna= read_dataset(image_path_train_luna, mask_path_train_luna)
 
-<<<<<<< Updated upstream
-images_set_train_femh, masks_set_train_femh= read_dataset(image_path_train_femh, mask_path_train_femh)
-
-images_set_val_luna, masks_set_val_luna= read_dataset(image_path_val_luna, mask_path_val_luna)
-
-images_set_val_femh, masks_set_val_femh= read_dataset(image_path_val_femh, mask_path_val_femh)
-=======
 # images_set_train_femh, masks_set_train_femh= read_dataset(image_path_train_femh, mask_path_train_femh)
 
 images_set_val_luna, masks_set_val_luna= read_dataset(image_path_val_luna, mask_path_val_luna)
 
 # images_set_val_femh, masks_set_val_femh= read_dataset(image_path_val_femh, mask_path_val_femh)
->>>>>>> Stashed changes
 
 x_train_luna = np.array(images_set_train_luna)
 y_train_luna = np.array(masks_set_train_luna)
 x_val_luna = np.array(images_set_val_luna)
 y_val_luna = np.array(masks_set_val_luna)
 
-<<<<<<< Updated upstream
-x_train_femh = np.array(images_set_train_femh)
-y_train_femh = np.array(masks_set_train_femh)
-x_val_femh = np.array(images_set_val_femh)
-y_val_femh = np.array(masks_set_val_femh)
-=======
 # x_train_femh = np.array(images_set_train_femh)
 # y_train_femh = np.array(masks_set_train_femh)
 # x_val_femh = np.array(images_set_val_femh)
 # y_val_femh = np.array(masks_set_val_femh)
->>>>>>> Stashed changes
 
 ############ MIX ##########################
 # Concatenate the two datasets along the first axis (axis=0)
 # concatenated_data = np.concatenate([x_train_luna, x_train_femh], axis=0)
 
-<<<<<<< Updated upstream
-x_train = np.concatenate([x_train_luna, x_train_femh], axis=0)
-y_train = np.concatenate([y_train_luna, y_train_femh], axis=0)
-x_val = np.concatenate([x_val_luna, x_val_femh], axis=0)
-y_val = np.concatenate([y_val_luna, y_val_femh], axis=0)
-
-=======
 # x_train = np.concatenate([x_train_luna, x_train_femh], axis=0)
 # y_train = np.concatenate([y_train_luna, y_train_femh], axis=0)
 # x_val = np.concatenate([x_val_luna, x_val_femh], axis=0)
 # y_val = np.concatenate([y_val_luna, y_val_femh], axis=0)
 
 # FEMH
->>>>>>> Stashed changes
 # x_train = x_train_femh
 # y_train = y_train_femh
 # x_val = x_val_femh
 # y_val = y_val_femh
 
-<<<<<<< Updated upstream
-=======
 # LUNA
 x_train = x_train_luna
 y_train = y_train_luna
 x_val = x_val_luna
 y_val = y_val_luna
 
->>>>>>> Stashed changes
 # Print or do further operations with the concatenated data
 print(len(x_train))
 print(len(y_train))
@@ -178,11 +139,6 @@ def apply_test_augmentation(x_train, y_train, x_val, y_val):
 # Define the number of folds
 n_splits = 5
 kf = KFold(n_splits=n_splits, shuffle=True, random_state=42)
-<<<<<<< Updated upstream
-
-# Iterate through folds
-for fold, (train_index, val_index) in enumerate(kf.split(X_train_val)):
-=======
 dsc_scores = []
 iou_scores = []
 
@@ -191,7 +147,6 @@ for fold, (train_index, val_index) in enumerate(kf.split(X_train_val)):
     
     print(f"\n Training for LUNA SA-unet Fold {fold + 1} START.\n")
     
->>>>>>> Stashed changes
     X_fold_train, X_fold_val = X_train_val[train_index], X_train_val[val_index]
     y_fold_train, y_fold_val = y_train_val[train_index], y_train_val[val_index]
 
@@ -200,11 +155,7 @@ for fold, (train_index, val_index) in enumerate(kf.split(X_train_val)):
     X_fold_train_aug, y_fold_train_aug, X_fold_val_aug, y_fold_val_aug = apply_test_augmentation(X_fold_train, y_fold_train, X_fold_val, y_fold_val)
     
     # Train your model on X_fold_train, y_fold_train
-<<<<<<< Updated upstream
-    ck_path = f"models/mix/validation/unet-fix-aug_fold{fold + 1}.hdf5"
-=======
     ck_path = f"models/luna/validation/sa-unet/sa-unet-fix-aug_fold{fold + 1}.hdf5"
->>>>>>> Stashed changes
     reduces = tf.keras.callbacks.ReduceLROnPlateau(monitor='val_loss', factor=0.1, patience=100, mode='auto', verbose=1)
     model_checkpoint = tf.keras.callbacks.ModelCheckpoint(ck_path, 
                                     monitor='val_loss',
@@ -222,9 +173,6 @@ for fold, (train_index, val_index) in enumerate(kf.split(X_train_val)):
     input_shape = (IMG_HEIGHT, IMG_WIDTH, IMG_CHANNELS)
 
     # UNET
-<<<<<<< Updated upstream
-    model = unet(input_shape)
-=======
     # model = unet(input_shape)
 
     #segnet
@@ -242,7 +190,6 @@ for fold, (train_index, val_index) in enumerate(kf.split(X_train_val)):
     # sa-unet
     model = sa_unet(input_shape)
 
->>>>>>> Stashed changes
 
     model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=1e-4),
               loss = dice_coef_loss,
@@ -279,116 +226,6 @@ for fold, (train_index, val_index) in enumerate(kf.split(X_train_val)):
     plt.show()
 
     visualize_all(history)
-<<<<<<< Updated upstream
-
-    print(f"Training for Fold {fold + 1} completed.\n")
-    
-# # Run Model
-
-# # change in every train
-# model_name = "models/mix/batch32/unet-full-100-aug.hdf5"
-# model_plot = "figures/mix/batch32/unet-full-100-aug.png"
-# print("========= test unet 32 100 full augmentation ===========")
-
-# # Define callbacks lists
-# ck_path = model_name
-# reduces = tf.keras.callbacks.ReduceLROnPlateau(monitor='val_loss', factor=0.1, patience=100, mode='auto', verbose=1)
-# model_checkpoint = tf.keras.callbacks.ModelCheckpoint(ck_path, 
-#                                    monitor='val_loss',
-#                                    mode = "min",
-#                                    verbose=1, 
-#                                    save_best_only=True)
-# early_stop = tf.keras.callbacks.EarlyStopping(patience=100, verbose=1)
-# callback_list = [model_checkpoint]
-
-# # Define Model
-# IMG_HEIGHT = x_train.shape[1]
-# IMG_WIDTH  = x_train.shape[2]
-# IMG_CHANNELS = x_train.shape[3]
-
-# input_shape = (IMG_HEIGHT, IMG_WIDTH, IMG_CHANNELS)
-
-# # UNET
-# model = unet(input_shape)
-
-# #segnet
-# # model = segnet(input_shape, num_classes=1)
-
-# #Unet++
-# # model = nested_unet(input_size=(64, 64, 1), num_filters=32)
-
-# #FCN
-# # model = fcn_model(input_size=(64, 64, 1))
-
-# #DeepLab v3
-# # model = deeplabv3_binary(input_shape)
-
-# #Attention unet
-# # model = attention_unet(input_size=(64, 64, 1))
-
-# model.summary()
-
-# # # Save the summary to a file
-# # with open('model_summary.txt', 'w') as f:
-# #     model.summary(print_fn=lambda x: f.write(x + '\n'))
-
-# # # Open the file to view the complete details
-# # with open('model_summary.txt', 'r') as f:
-# #     print(f.read())
-
-
-# # # Count total number of layers
-# # total_layers = len(model.layers)
-# # print(f'Total number of layers: {total_layers}')
-
-# # tf.keras.utils.plot_model(model, show_dtype=True, show_layer_names=True, show_shapes=True, to_file=model_plot)
-
-# # # Specify the file path for saving the model architecture image
-# # model_plot = 'unet_architecture.png'
-
-# # # Plot the model architecture
-# # plot_model(model, show_shapes=True, show_layer_names=True, expand_nested=True)
-
-# # # Save the figure
-# # plt.savefig(model_plot, bbox_inches='tight', format='png')
-
-# # print(f"Model architecture image saved at {model_plot}")
-
-
-# model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=1e-4),
-#               loss = dice_coef_loss,
-#               metrics = ['accuracy', dice_coef, iou_score])
-
-# batch_size = 32
-# # Training 
-# history = model.fit(x_train, y_train,
-#         epochs=100,
-#         batch_size = batch_size,
-#         steps_per_epoch = len(x_train)/batch_size,
-#         validation_data = (x_val, y_val),
-#         validation_steps = len(x_val)/batch_size,
-#         callbacks=callback_list)
-
-# # Visualize Metrics
-# # Evaluate the model on the validation data
-# loss_and_metrics = model.evaluate(x_val, y_val)
-# print("Mean IoU:", loss_and_metrics[3])  # Or appropriate index for accuracy
-# print("Dice_coefficient:", loss_and_metrics[2])  # Or appropriate index for accuracy
-
-# # predict segmentation
-# preds = model.predict(x_val)
-
-# # show results for the first 20 rows
-# num_rows_to_display = 5
-# fig, ax = plt.subplots(num_rows_to_display, 3, figsize=(10, 20))
-# for i in range(num_rows_to_display):
-#     ax[i, 0].imshow(x_val[i].squeeze(), cmap='gray')
-#     ax[i, 1].imshow(y_val[i].squeeze(), cmap='gray')
-#     ax[i, 2].imshow(preds[i].squeeze(), cmap='gray')
-# plt.show()
-
-# visualize_all(history)
-=======
     
     dsc_scores.append(loss_and_metrics[2])
     iou_scores.append(loss_and_metrics[3])
@@ -417,4 +254,3 @@ print(f"DSC Standard Deviation of Accuracy: {dsc_std_accuracy}")
 
 print(f"IoU Mean Accuracy: {iou_mean_accuracy}")
 print(f"IoU Standard Deviation of Accuracy: {iou_std_accuracy}")
->>>>>>> Stashed changes

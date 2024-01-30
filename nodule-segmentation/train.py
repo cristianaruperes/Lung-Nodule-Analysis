@@ -21,32 +21,6 @@ os.environ['KMP_DUPLICATE_LIB_OK'] = 'True'
 # y_val = np.load('data/split/femh/data474/original/val_data/y_val.npy')
 
 # FEMH raw
-<<<<<<< Updated upstream
-image_path_train_femh = "data/split/femh/data474/image-format/train_data/images/"
-mask_path_train_femh = "data/split/femh/data474/image-format/train_data/masks/"
-image_path_val_femh = "data/split/femh/data474/image-format/val_data/images/"
-mask_path_val_femh = "data/split/femh/data474/image-format/val_data/masks/"
-
-# LUNA16 raw
-image_path_train_luna = "data/split/luna16/data934/image-format/train_data/images/"
-mask_path_train_luna = "data/split/luna16/data934/image-format/train_data/masks/"
-image_path_val_luna = "data/split/luna16/data934/image-format/val_data/images/"
-mask_path_val_luna = "data/split/luna16/data934/image-format/val_data/masks/"
-
-# convert image to numpy array
-images_set_train_luna, masks_set_train_luna= read_dataset(image_path_train_luna, mask_path_train_luna)
-
-images_set_train_femh, masks_set_train_femh= read_dataset(image_path_train_femh, mask_path_train_femh)
-
-images_set_val_luna, masks_set_val_luna= read_dataset(image_path_val_luna, mask_path_val_luna)
-
-images_set_val_femh, masks_set_val_femh= read_dataset(image_path_val_femh, mask_path_val_femh)
-
-x_train_luna = np.array(images_set_train_luna)
-y_train_luna = np.array(masks_set_train_luna)
-x_val_luna = np.array(images_set_val_luna)
-y_val_luna = np.array(masks_set_val_luna)
-=======
 image_path_train_femh = "../data-thesis/split/femh/data474/image-format/train_data/images/"
 mask_path_train_femh = "../data-thesis/split/femh/data474/image-format/train_data/masks/"
 image_path_val_femh = "../data-thesis/split/femh/data474/image-format/val_data/images/"
@@ -71,7 +45,6 @@ images_set_val_femh, masks_set_val_femh= read_dataset(image_path_val_femh, mask_
 # y_train_luna = np.array(masks_set_train_luna)
 # x_val_luna = np.array(images_set_val_luna)
 # y_val_luna = np.array(masks_set_val_luna)
->>>>>>> Stashed changes
 
 x_train_femh = np.array(images_set_train_femh)
 y_train_femh = np.array(masks_set_train_femh)
@@ -152,15 +125,9 @@ print(y_val.shape)
 
 
 # change in every train
-<<<<<<< Updated upstream
-model_name = "models/mix/batch32/unet-full-100-aug.hdf5"
-model_plot = "figures/mix/batch32/unet-full-100-aug.png"
-print("========= test unet 32 100 full augmentation ===========")
-=======
 model_name = "models/mix/sa-unet/sa-unet-full-50-aug.hdf5"
 model_plot = "figures/mix/sa-unet/sa-unet-full-50-aug.png"
 print("========= test sa-unet 50 full augmentation ===========")
->>>>>>> Stashed changes
 
 # Define callbacks lists
 ck_path = model_name
@@ -181,9 +148,6 @@ IMG_CHANNELS = x_train.shape[3]
 input_shape = (IMG_HEIGHT, IMG_WIDTH, IMG_CHANNELS)
 
 # UNET
-<<<<<<< Updated upstream
-model = unet(input_shape)
-=======
 # model = unet(input_shape)
 
 # ca-unet
@@ -191,7 +155,6 @@ model = unet(input_shape)
 
 # sa-unet
 model = sa_unet(input_shape)
->>>>>>> Stashed changes
 
 #segnet
 # model = segnet(input_shape, num_classes=1)
@@ -241,17 +204,10 @@ model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=1e-4),
               loss = dice_coef_loss,
               metrics = ['accuracy', dice_coef, iou_score])
 
-<<<<<<< Updated upstream
-batch_size = 32
-# Training 
-history = model.fit(x_train, y_train,
-        epochs=100,
-=======
 batch_size = 16
 # Training 
 history = model.fit(x_train, y_train,
         epochs=50,
->>>>>>> Stashed changes
         batch_size = batch_size,
         steps_per_epoch = len(x_train)/batch_size,
         validation_data = (x_val, y_val),

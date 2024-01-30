@@ -223,36 +223,6 @@ def fcn_model(input_size=(64, 64, 1)):
 
     return model
 
-<<<<<<< Updated upstream
-def deeplabv3_binary(input_shape):
-    # Load the MobileNetV2 model as the base
-    base_model = MobileNetV2(input_shape=input_shape, include_top=False, weights='imagenet')
-
-    # Use the output from the last convolutional layer
-    base_output = base_model.get_layer('out_relu').output
-
-    # Upsample the feature map
-    x = Conv2DTranspose(256, (3, 3), strides=(2, 2), padding='same')(base_output)
-    x = concatenate([x, base_model.get_layer('block_16_project_BN').output], axis=-1)
-
-    x = Conv2D(128, (3, 3), activation='relu', padding='same')(x)
-    x = Conv2DTranspose(128, (3, 3), strides=(2, 2), padding='same')(x)
-    x = concatenate([x, base_model.get_layer('block_13_project_BN').output], axis=-1)
-
-    x = Conv2D(64, (3, 3), activation='relu', padding='same')(x)
-    x = Conv2DTranspose(64, (3, 3), strides=(2, 2), padding='same')(x)
-    x = concatenate([x, base_model.get_layer('block_6_project_BN').output], axis=-1)
-
-    x = Conv2D(32, (3, 3), activation='relu', padding='same')(x)
-
-    # Final convolutional layer for binary segmentation with sigmoid activation
-    output = Conv2D(1, (1, 1), activation='sigmoid')(x)
-
-    # Create the model
-    model = Model(inputs=base_model.input, outputs=output)
-
-    return model
-=======
 # def deeplabv3_binary(input_shape):
 #     # Load the MobileNetV2 model as the base
 #     base_model = MobileNetV2(input_shape=input_shape, include_top=False, weights='imagenet')
@@ -400,4 +370,3 @@ def sa_unet(input_size=(64, 64, 1)):
     conv10 = Conv2D(1, (1, 1), activation='sigmoid')(conv9)
 
     return Model(inputs=[inputs], outputs=[conv10])
->>>>>>> Stashed changes
