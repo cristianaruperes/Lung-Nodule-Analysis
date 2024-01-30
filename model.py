@@ -223,6 +223,7 @@ def fcn_model(input_size=(64, 64, 1)):
 
     return model
 
+<<<<<<< Updated upstream
 def deeplabv3_binary(input_shape):
     # Load the MobileNetV2 model as the base
     base_model = MobileNetV2(input_shape=input_shape, include_top=False, weights='imagenet')
@@ -251,3 +252,152 @@ def deeplabv3_binary(input_shape):
     model = Model(inputs=base_model.input, outputs=output)
 
     return model
+=======
+# def deeplabv3_binary(input_shape):
+#     # Load the MobileNetV2 model as the base
+#     base_model = MobileNetV2(input_shape=input_shape, include_top=False, weights='imagenet')
+
+#     # Use the output from the last convolutional layer
+#     base_output = base_model.get_layer('out_relu').output
+
+#     # Upsample the feature map
+#     x = Conv2DTranspose(256, (3, 3), strides=(2, 2), padding='same')(base_output)
+#     x = concatenate([x, base_model.get_layer('block_16_project_BN').output], axis=-1)
+
+#     x = Conv2D(128, (3, 3), activation='relu', padding='same')(x)
+#     x = Conv2DTranspose(128, (3, 3), strides=(2, 2), padding='same')(x)
+#     x = concatenate([x, base_model.get_layer('block_13_project_BN').output], axis=-1)
+
+#     x = Conv2D(64, (3, 3), activation='relu', padding='same')(x)
+#     x = Conv2DTranspose(64, (3, 3), strides=(2, 2), padding='same')(x)
+#     x = concatenate([x, base_model.get_layer('block_6_project_BN').output], axis=-1)
+
+#     x = Conv2D(32, (3, 3), activation='relu', padding='same')(x)
+
+#     # Final convolutional layer for binary segmentation with sigmoid activation
+#     output = Conv2D(1, (1, 1), activation='sigmoid')(x)
+
+#     # Create the model
+#     model = Model(inputs=base_model.input, outputs=output)
+
+#     return model
+
+
+def swin_transformer_block(x, filters, kernel_size=(3, 3), strides=(1, 1)):
+    # Swin Transformer block
+    conv1 = Conv2D(filters, kernel_size, strides=strides, padding='same')(x)
+    conv1 = BatchNormalization()(conv1)
+    conv1 = Activation('relu')(conv1)
+
+    conv2 = Conv2D(filters, kernel_size, strides=strides, padding='same')(conv1)
+    conv2 = BatchNormalization()(conv2)
+    conv2 = Activation('relu')(conv2)
+
+    return conv2
+
+def channel_attention_module(x, ratio=8):
+    # Channel attention module
+    channels = int(x.shape[-1])
+    avg_pool = tf.reduce_mean(x, axis=[1, 2], keepdims=True)
+    max_pool = tf.reduce_max(x, axis=[1, 2], keepdims=True)
+    concat = concatenate([avg_pool, max_pool], axis=-1)
+    f = Conv2D(channels // ratio, 1, activation='relu', padding='same')(concat)
+    f = Conv2D(channels, 1, activation='sigmoid', padding='same')(f)
+    return f * x
+
+def ca_unet(input_size=(64, 64, 1)):
+    inputs = Input(input_size)
+
+    conv1 = swin_transformer_block(inputs, 32)
+    conv1 = swin_transformer_block(conv1, 32)
+    pool1 = MaxPooling2D(pool_size=(2, 2))(conv1)
+
+    conv2 = swin_transformer_block(pool1, 64)
+    conv2 = swin_transformer_block(conv2, 64)
+    pool2 = MaxPooling2D(pool_size=(2, 2))(conv2)
+
+    conv3 = swin_transformer_block(pool2, 128)
+    conv3 = swin_transformer_block(conv3, 128)
+    pool3 = MaxPooling2D(pool_size=(2, 2))(conv3)
+    drop3 = Dropout(0.25)(pool3)
+
+    conv4 = swin_transformer_block(drop3, 256)
+    conv4 = swin_transformer_block(conv4, 256)
+    pool4 = MaxPooling2D(pool_size=(2, 2))(conv4)
+
+    conv5 = swin_transformer_block(pool4, 512)
+    conv5 = swin_transformer_block(conv5, 512)
+    drop5 = Dropout(0.25)(conv5)
+
+    up6 = concatenate([Conv2DTranspose(256, (2, 2), strides=(2, 2), padding='same')(drop5), conv4], axis=3)
+    conv6 = swin_transformer_block(up6, 256)
+    conv6 = channel_attention_module(conv6)
+
+    up7 = concatenate([Conv2DTranspose(128, (2, 2), strides=(2, 2), padding='same')(conv6), conv3], axis=3)
+    conv7 = swin_transformer_block(up7, 128)
+    conv7 = channel_attention_module(conv7)
+
+    up8 = concatenate([Conv2DTranspose(64, (2, 2), strides=(2, 2), padding='same')(conv7), conv2], axis=3)
+    conv8 = swin_transformer_block(up8, 64)
+    conv8 = channel_attention_module(conv8)
+
+    up9 = concatenate([Conv2DTranspose(32, (2, 2), strides=(2, 2), padding='same')(conv8), conv1], axis=3)
+    conv9 = swin_transformer_block(up9, 32)
+    conv9 = channel_attention_module(conv9)
+
+    conv10 = Conv2D(1, (1, 1), activation='sigmoid')(conv9)
+
+    return Model(inputs=[inputs], outputs=[conv10])
+
+
+# SAtUNET
+
+def atrous_conv_block(x, filters, dilation_rate=(1, 1)):
+    conv = Conv2D(filters, (3, 3), activation='relu', padding='same', dilation_rate=dilation_rate)(x)
+    conv = Conv2D(filters, (3, 3), activation='relu', padding='same', dilation_rate=dilation_rate)(conv)
+    return conv
+
+def sa_unet(input_size=(64, 64, 1)):
+    inputs = Input(input_size)
+    
+    conv1 = atrous_conv_block(inputs, 32)
+    conv1 = atrous_conv_block(conv1, 32)
+    pool1 = MaxPooling2D(pool_size=(2, 2))(conv1)
+
+    conv2 = atrous_conv_block(pool1, 64)
+    conv2 = atrous_conv_block(conv2, 64)
+    pool2 = MaxPooling2D(pool_size=(2, 2))(conv2)
+
+    conv3 = atrous_conv_block(pool2, 128)
+    conv3 = atrous_conv_block(conv3, 128)
+    pool3 = MaxPooling2D(pool_size=(2, 2))(conv3)
+    drop3 = Dropout(0.25)(pool3)
+
+    conv4 = atrous_conv_block(drop3, 256)
+    conv4 = atrous_conv_block(conv4, 256)
+    pool4 = MaxPooling2D(pool_size=(2, 2))(conv4)
+
+    conv5 = atrous_conv_block(pool4, 512)
+    conv5 = atrous_conv_block(conv5, 512)
+    drop5 = Dropout(0.25)(conv5)
+
+    up6 = concatenate([Conv2DTranspose(256, (2, 2), strides=(2, 2), padding='same')(drop5), conv4], axis=3)
+    conv6 = atrous_conv_block(up6, 256)
+    conv6 = atrous_conv_block(conv6, 256)
+
+    up7 = concatenate([Conv2DTranspose(128, (2, 2), strides=(2, 2), padding='same')(conv6), conv3], axis=3)
+    conv7 = atrous_conv_block(up7, 128)
+    conv7 = atrous_conv_block(conv7, 128)
+
+    up8 = concatenate([Conv2DTranspose(64, (2, 2), strides=(2, 2), padding='same')(conv7), conv2], axis=3)
+    conv8 = atrous_conv_block(up8, 64)
+    conv8 = atrous_conv_block(conv8, 64)
+
+    up9 = concatenate([Conv2DTranspose(32, (2, 2), strides=(2, 2), padding='same')(conv8), conv1], axis=3)
+    conv9 = atrous_conv_block(up9, 32)
+    conv9 = atrous_conv_block(conv9, 32)
+
+    conv10 = Conv2D(1, (1, 1), activation='sigmoid')(conv9)
+
+    return Model(inputs=[inputs], outputs=[conv10])
+>>>>>>> Stashed changes

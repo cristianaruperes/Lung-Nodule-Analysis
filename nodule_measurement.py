@@ -16,9 +16,15 @@ os.environ['KMP_DUPLICATE_LIB_OK'] = 'True'
 # mask_path = "data/luna16/output2/masks_morph/"
 # annotations_csv = "data/luna16/fix-mask-annotation1.csv"
 
+<<<<<<< Updated upstream
 image_path = "data/split/luna16/data934/image-format/test_data/images/"
 mask_path = "data/split/luna16/data934/image-format/test_data/masks/"
 annotations_csv = "data/split/luna16/data934/image-format/test_data/full-data.csv"
+=======
+image_path = "../data-thesis/split/luna16/data934/image-format/test_data/images/"
+mask_path = "../data-thesis/split/luna16/data934/image-format/test_data/masks/"
+annotations_csv = "../data-thesis/split/luna16/data934/image-format/test_data/full-data.csv"
+>>>>>>> Stashed changes
 
 # Read the CSV file into a DataFrame
 annotations_df = pd.read_csv(annotations_csv)
@@ -53,12 +59,25 @@ y_test = masks_set
 tf.keras.backend.clear_session()
 
 # Load model
+<<<<<<< Updated upstream
 ck_path = "models/mix/unet-aug.hdf5"
+=======
+# ck_path = "models/mix/validation/unet/unet-fix-aug_fold2.hdf5"
+# ck_path = "models/mix/validation/segnet/segnet-fix-aug_fold5.hdf5"
+# ck_path = "models/mix/validation/nested/nested-fix-aug_fold2.hdf5"
+# ck_path = "models/mix/validation/fcn/fcn-fix-aug_fold3.hdf5"
+# ck_path = "models/mix/validation/ca-unet/ca-unet-fix-aug_fold5.hdf5"
+ck_path = "models/mix/validation/sa-unet/sa-unet-fix-aug_fold2.hdf5"
+>>>>>>> Stashed changes
 
 input_shape = (64, 64, 1)
 
 # UNET
+<<<<<<< Updated upstream
 model = unet(input_shape)
+=======
+# model = unet(input_shape)
+>>>>>>> Stashed changes
 
 #segnet
 # model = segnet(input_shape, num_classes=1)
@@ -72,12 +91,25 @@ model = unet(input_shape)
 #FCN
 # model = fcn_model(input_size=(64, 64, 1))
 
+<<<<<<< Updated upstream
+=======
+ # ca-unet
+# model = ca_unet(input_shape)
+
+# sa-unet
+model = sa_unet(input_shape)
+
+>>>>>>> Stashed changes
 model.load_weights(ck_path)
 
 # #Prediction
 y_pred = model.predict(x_test)
 
+<<<<<<< Updated upstream
 print("mix unet")
+=======
+print("mix fold 2 sa-unet")
+>>>>>>> Stashed changes
 
 # Choose an index for the image you want to visualize
 image_index = 2  # Replace with the index of the image you want to visualize
@@ -129,7 +161,11 @@ annotations_df.head()
 
 #save csv file
 # file_path = 'nodule_area7.csv'
+<<<<<<< Updated upstream
 file_path = 'file-measurement/mix/measure-test-unet-visualize.csv'
+=======
+file_path = 'file-measurement/mix/validation/saunet-fold2.csv'
+>>>>>>> Stashed changes
 
 # Check if the file exists
 if os.path.exists(file_path):

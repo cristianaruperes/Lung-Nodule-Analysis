@@ -23,6 +23,7 @@ os.environ['KMP_DUPLICATE_LIB_OK'] = 'True'
 # y_val = np.load('data/split/femh/data474/original/val_data/y_val.npy')
 
 # FEMH raw
+<<<<<<< Updated upstream
 image_path_train_femh = "data/split/femh/data474/image-format/train_data/images/"
 mask_path_train_femh = "data/split/femh/data474/image-format/train_data/masks/"
 image_path_val_femh = "data/split/femh/data474/image-format/val_data/images/"
@@ -33,40 +34,85 @@ image_path_train_luna = "data/split/luna16/data934/image-format/train_data/image
 mask_path_train_luna = "data/split/luna16/data934/image-format/train_data/masks/"
 image_path_val_luna = "data/split/luna16/data934/image-format/val_data/images/"
 mask_path_val_luna = "data/split/luna16/data934/image-format/val_data/masks/"
+=======
+# image_path_train_femh = "../data-thesis/split/femh/data474/image-format/train_data/images/"
+# mask_path_train_femh = "../data-thesis/split/femh/data474/image-format/train_data/masks/"
+# image_path_val_femh = "../data-thesis/split/femh/data474/image-format/val_data/images/"
+# mask_path_val_femh = "../data-thesis/split/femh/data474/image-format/val_data/masks/"
+
+# LUNA16 raw
+image_path_train_luna = "../data-thesis/split/luna16/data934/image-format/train_data/images/"
+mask_path_train_luna = "../data-thesis/split/luna16/data934/image-format/train_data/masks/"
+image_path_val_luna = "../data-thesis/split/luna16/data934/image-format/val_data/images/"
+mask_path_val_luna = "../data-thesis/split/luna16/data934/image-format/val_data/masks/"
+>>>>>>> Stashed changes
 
 # convert image to numpy array
 images_set_train_luna, masks_set_train_luna= read_dataset(image_path_train_luna, mask_path_train_luna)
 
+<<<<<<< Updated upstream
 images_set_train_femh, masks_set_train_femh= read_dataset(image_path_train_femh, mask_path_train_femh)
 
 images_set_val_luna, masks_set_val_luna= read_dataset(image_path_val_luna, mask_path_val_luna)
 
 images_set_val_femh, masks_set_val_femh= read_dataset(image_path_val_femh, mask_path_val_femh)
+=======
+# images_set_train_femh, masks_set_train_femh= read_dataset(image_path_train_femh, mask_path_train_femh)
+
+images_set_val_luna, masks_set_val_luna= read_dataset(image_path_val_luna, mask_path_val_luna)
+
+# images_set_val_femh, masks_set_val_femh= read_dataset(image_path_val_femh, mask_path_val_femh)
+>>>>>>> Stashed changes
 
 x_train_luna = np.array(images_set_train_luna)
 y_train_luna = np.array(masks_set_train_luna)
 x_val_luna = np.array(images_set_val_luna)
 y_val_luna = np.array(masks_set_val_luna)
 
+<<<<<<< Updated upstream
 x_train_femh = np.array(images_set_train_femh)
 y_train_femh = np.array(masks_set_train_femh)
 x_val_femh = np.array(images_set_val_femh)
 y_val_femh = np.array(masks_set_val_femh)
+=======
+# x_train_femh = np.array(images_set_train_femh)
+# y_train_femh = np.array(masks_set_train_femh)
+# x_val_femh = np.array(images_set_val_femh)
+# y_val_femh = np.array(masks_set_val_femh)
+>>>>>>> Stashed changes
 
 ############ MIX ##########################
 # Concatenate the two datasets along the first axis (axis=0)
 # concatenated_data = np.concatenate([x_train_luna, x_train_femh], axis=0)
 
+<<<<<<< Updated upstream
 x_train = np.concatenate([x_train_luna, x_train_femh], axis=0)
 y_train = np.concatenate([y_train_luna, y_train_femh], axis=0)
 x_val = np.concatenate([x_val_luna, x_val_femh], axis=0)
 y_val = np.concatenate([y_val_luna, y_val_femh], axis=0)
 
+=======
+# x_train = np.concatenate([x_train_luna, x_train_femh], axis=0)
+# y_train = np.concatenate([y_train_luna, y_train_femh], axis=0)
+# x_val = np.concatenate([x_val_luna, x_val_femh], axis=0)
+# y_val = np.concatenate([y_val_luna, y_val_femh], axis=0)
+
+# FEMH
+>>>>>>> Stashed changes
 # x_train = x_train_femh
 # y_train = y_train_femh
 # x_val = x_val_femh
 # y_val = y_val_femh
 
+<<<<<<< Updated upstream
+=======
+# LUNA
+x_train = x_train_luna
+y_train = y_train_luna
+x_val = x_val_luna
+y_val = y_val_luna
+
+>>>>>>> Stashed changes
 # Print or do further operations with the concatenated data
 print(len(x_train))
 print(len(y_train))
@@ -132,9 +178,20 @@ def apply_test_augmentation(x_train, y_train, x_val, y_val):
 # Define the number of folds
 n_splits = 5
 kf = KFold(n_splits=n_splits, shuffle=True, random_state=42)
+<<<<<<< Updated upstream
 
 # Iterate through folds
 for fold, (train_index, val_index) in enumerate(kf.split(X_train_val)):
+=======
+dsc_scores = []
+iou_scores = []
+
+# Iterate through folds
+for fold, (train_index, val_index) in enumerate(kf.split(X_train_val)):
+    
+    print(f"\n Training for LUNA SA-unet Fold {fold + 1} START.\n")
+    
+>>>>>>> Stashed changes
     X_fold_train, X_fold_val = X_train_val[train_index], X_train_val[val_index]
     y_fold_train, y_fold_val = y_train_val[train_index], y_train_val[val_index]
 
@@ -143,7 +200,11 @@ for fold, (train_index, val_index) in enumerate(kf.split(X_train_val)):
     X_fold_train_aug, y_fold_train_aug, X_fold_val_aug, y_fold_val_aug = apply_test_augmentation(X_fold_train, y_fold_train, X_fold_val, y_fold_val)
     
     # Train your model on X_fold_train, y_fold_train
+<<<<<<< Updated upstream
     ck_path = f"models/mix/validation/unet-fix-aug_fold{fold + 1}.hdf5"
+=======
+    ck_path = f"models/luna/validation/sa-unet/sa-unet-fix-aug_fold{fold + 1}.hdf5"
+>>>>>>> Stashed changes
     reduces = tf.keras.callbacks.ReduceLROnPlateau(monitor='val_loss', factor=0.1, patience=100, mode='auto', verbose=1)
     model_checkpoint = tf.keras.callbacks.ModelCheckpoint(ck_path, 
                                     monitor='val_loss',
@@ -161,7 +222,27 @@ for fold, (train_index, val_index) in enumerate(kf.split(X_train_val)):
     input_shape = (IMG_HEIGHT, IMG_WIDTH, IMG_CHANNELS)
 
     # UNET
+<<<<<<< Updated upstream
     model = unet(input_shape)
+=======
+    # model = unet(input_shape)
+
+    #segnet
+    # model = segnet(input_shape, num_classes=1)
+
+    #Unet++
+    # model = nested_unet(input_size=(64, 64, 1), num_filters=32)
+
+    #FCN
+    # model = fcn_model(input_size=(64, 64, 1))
+    
+    # ca-unet
+    # model = ca_unet(input_shape)
+
+    # sa-unet
+    model = sa_unet(input_shape)
+
+>>>>>>> Stashed changes
 
     model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=1e-4),
               loss = dice_coef_loss,
@@ -198,6 +279,7 @@ for fold, (train_index, val_index) in enumerate(kf.split(X_train_val)):
     plt.show()
 
     visualize_all(history)
+<<<<<<< Updated upstream
 
     print(f"Training for Fold {fold + 1} completed.\n")
     
@@ -306,3 +388,33 @@ for fold, (train_index, val_index) in enumerate(kf.split(X_train_val)):
 # plt.show()
 
 # visualize_all(history)
+=======
+    
+    dsc_scores.append(loss_and_metrics[2])
+    iou_scores.append(loss_and_metrics[3])
+    
+    print(f"Training for Fold {fold + 1} completed.\n")
+
+
+# Iterate through the list and print the scores for each fold
+for fold, dsc_score in enumerate(dsc_scores, start=1):
+    print(f"Fold {fold}: Dice Coefficient = {dsc_score}")
+
+# Iterate through the list and print the scores for each fold
+for fold, iou_score in enumerate(iou_scores, start=1):
+    print(f"Fold {fold}: IoU Scores = {iou_score}")
+     
+# Calculate mean and standard deviation of accuracy scores
+dsc_mean_accuracy = np.mean(dsc_scores)
+dsc_std_accuracy = np.std(dsc_scores)
+
+iou_mean_accuracy = np.mean(iou_scores)
+iou_std_accuracy = np.std(iou_scores)
+
+# Print the results
+print(f"DSC Mean Accuracy: {dsc_mean_accuracy}")
+print(f"DSC Standard Deviation of Accuracy: {dsc_std_accuracy}")
+
+print(f"IoU Mean Accuracy: {iou_mean_accuracy}")
+print(f"IoU Standard Deviation of Accuracy: {iou_std_accuracy}")
+>>>>>>> Stashed changes
