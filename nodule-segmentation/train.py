@@ -27,24 +27,24 @@ image_path_val_femh = "../data-thesis/split/femh/data474/image-format/val_data/i
 mask_path_val_femh = "../data-thesis/split/femh/data474/image-format/val_data/masks/"
 
 # LUNA16 raw
-# image_path_train_luna = "../data-thesis/split/luna16/data934/image-format/train_data/images/"
-# mask_path_train_luna = "../data-thesis/split/luna16/data934/image-format/train_data/masks/"
-# image_path_val_luna = "../data-thesis/split/luna16/data934/image-format/val_data/images/"
-# mask_path_val_luna = "../data-thesis/split/luna16/data934/image-format/val_data/masks/"
+image_path_train_luna = "../data-thesis/split/luna16/data934/image-format/train_data/images/"
+mask_path_train_luna = "../data-thesis/split/luna16/data934/image-format/train_data/masks/"
+image_path_val_luna = "../data-thesis/split/luna16/data934/image-format/val_data/images/"
+mask_path_val_luna = "../data-thesis/split/luna16/data934/image-format/val_data/masks/"
 
 # convert image to numpy array
-# images_set_train_luna, masks_set_train_luna= read_dataset(image_path_train_luna, mask_path_train_luna)
+images_set_train_luna, masks_set_train_luna= read_dataset(image_path_train_luna, mask_path_train_luna)
 
 images_set_train_femh, masks_set_train_femh= read_dataset(image_path_train_femh, mask_path_train_femh)
 
-# images_set_val_luna, masks_set_val_luna= read_dataset(image_path_val_luna, mask_path_val_luna)
+images_set_val_luna, masks_set_val_luna= read_dataset(image_path_val_luna, mask_path_val_luna)
 
 images_set_val_femh, masks_set_val_femh= read_dataset(image_path_val_femh, mask_path_val_femh)
 
-# x_train_luna = np.array(images_set_train_luna)
-# y_train_luna = np.array(masks_set_train_luna)
-# x_val_luna = np.array(images_set_val_luna)
-# y_val_luna = np.array(masks_set_val_luna)
+x_train_luna = np.array(images_set_train_luna)
+y_train_luna = np.array(masks_set_train_luna)
+x_val_luna = np.array(images_set_val_luna)
+y_val_luna = np.array(masks_set_val_luna)
 
 x_train_femh = np.array(images_set_train_femh)
 y_train_femh = np.array(masks_set_train_femh)
